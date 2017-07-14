@@ -3,6 +3,7 @@
 
 #include <WinSock2.h>
 #include <string>
+#include <vector>
 
 class TcpServer
 {
@@ -21,6 +22,10 @@ public:
     // 初始化windows网络组件,
     // 返回0,成功;返回其它值,失败.
     static int initWSA();
+    // 获取本机的所有ip地址
+    static std::vector<std::string> getLocalHosts();
+    // 添加日志
+    static void addLog(const char *log);
 
     int start();
     int stop();
@@ -49,6 +54,8 @@ public:
     SOCKET serverSocket() const
     { return mSerSock; }
 
+    ServerStatus serverStatus() const
+    { return mSerStatus; }
 
 private:
     int                 mConnCount;     /* 连接数 */
