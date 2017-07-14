@@ -107,4 +107,8 @@ void TcpServerWindow::updateServerMsg()
         ui->pushButton_start->setDisabled(true);
         ui->pushButton_stop->setDisabled(true);
     }
+
+    ui->textEdit_log->setText(
+                QString::fromStdString(TcpServer::readLog())
+                );
 }

@@ -78,6 +78,42 @@ void TcpServer::addLog(const char *log)
     fclose(pFile);
 }
 
+std::string TcpServer::readLog()
+{
+    // 获取程序运行路径
+    char path[256];
+    GetCurrentDirectoryA(sizeof(path), path);
+    char fileName[64];
+
+    // 根据当前日期获取日志文件名
+    SYSTEMTIME t;
+    GetLocalTime(&t);
+    sprintf(fileName, "\\%d-%02d-%02d.txt", t.wYear, t.wMonth, t.wDay);
+
+    // 合成日志文件路径名
+    strcat(path, fileName);
+
+    // 打开文件
+    FILE *pFile = fopen(path, "r");
+    if (!pFile)
+        return std::string();
+
+    // 获取文件长度
+    fseek(pFile, 0, SEEK_END);
+    int fileSize = ftell(pFile);
+
+    // 开辟内存,读取文件内容
+    char *buf = new char[fileSize];
+    memset(buf, 0, fileSize);
+    fseek(pFile, 0, SEEK_SET);
+    fread(buf, fileSize, 1, pFile);
+
+    std::string str = buf;
+    delete []buf;
+
+    return str;
+}
+
 int TcpServer::start()
 {
     int rc;

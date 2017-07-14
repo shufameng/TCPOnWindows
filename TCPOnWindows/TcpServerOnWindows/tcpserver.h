@@ -26,6 +26,8 @@ public:
     static std::vector<std::string> getLocalHosts();
     // 添加日志
     static void addLog(const char *log);
+    // 读取当天日志文件的内容
+    static std::string readLog();
 
     int start();
     int stop();
